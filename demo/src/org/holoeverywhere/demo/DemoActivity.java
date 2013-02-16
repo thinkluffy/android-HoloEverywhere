@@ -134,7 +134,7 @@ public class DemoActivity extends Activity implements OnBackStackChangedListener
 
     @Override
     public void onBackStackChanged() {
-        if (!mStaticSlidingMenu) {
+        if (mStaticSlidingMenu) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(
                     getSupportFragmentManager().getBackStackEntryCount() > 0);
         }
@@ -170,7 +170,7 @@ public class DemoActivity extends Activity implements OnBackStackChangedListener
         View menu = findViewById(R.id.menu);
         if (menu == null) {
             // Phone
-            mStaticSlidingMenu = true;
+            mStaticSlidingMenu = false;
             ab.setDisplayHomeAsUpEnabled(true);
             addonSM.setBehindContentView(makeMenuView(savedInstanceState));
             addonSM.setSlidingActionBarEnabled(true);
@@ -179,7 +179,7 @@ public class DemoActivity extends Activity implements OnBackStackChangedListener
             sm.setSlidingEnabled(true);
         } else {
             // Tablet
-            mStaticSlidingMenu = false;
+            mStaticSlidingMenu = true;
             addonSM.setBehindContentView(new View(this)); // dummy view
             sm.setTouchModeAbove(SlidingMenu.TOUCHMODE_NONE);
             sm.setSlidingEnabled(false);
@@ -216,7 +216,8 @@ public class DemoActivity extends Activity implements OnBackStackChangedListener
                 }
                 break;
             case android.R.id.home:
-                if (mStaticSlidingMenu && getSupportFragmentManager().getBackStackEntryCount() == 0) {
+                if (!mStaticSlidingMenu
+                        && getSupportFragmentManager().getBackStackEntryCount() == 0) {
                     requireSlidingMenu().toggle();
                 } else {
                     onBackPressed();
@@ -236,8 +237,8 @@ public class DemoActivity extends Activity implements OnBackStackChangedListener
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
-        if (mCreatedByThemeManager) {
-            savedInstanceState = instanceState(savedInstanceState);
+        savedInstanceState = instanceState(savedInstanceState);
+        if (mCreatedByThemeManager && savedInstanceState != null) {
             savedInstanceState.putBoolean("SlidingActivityHelper.open", false);
             savedInstanceState.putBoolean("SlidingActivityHelper.secondary", false);
         }

@@ -3,8 +3,8 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<artifactId>demo</artifactId>
-	<name>HoloEverywhere Demo</name>
+	<artifactId>test</artifactId>
+	<name>HoloEverywhere Test</name>
 	<packaging>apk</packaging>
 
 	<parent>
@@ -22,15 +22,19 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.holoeverywhere</groupId>
-			<artifactId>library</artifactId>
-			<version>${project.version}</version>
-			<type>apklib</type>
+			<groupId>com.google.android</groupId>
+			<artifactId>android-test</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
 		</dependency>
 
 		<dependency>
 			<groupId>org.holoeverywhere</groupId>
-			<artifactId>addon-slidingmenu</artifactId>
+			<artifactId>library</artifactId>
 			<version>${project.version}</version>
 			<type>apklib</type>
 		</dependency>
@@ -43,29 +47,10 @@
 		</dependency>
 	</dependencies>
 
-	<properties>
-		<holo.resbuilder.buildAll>false</holo.resbuilder.buildAll>
-	</properties>
-
 	<build>
 		<sourceDirectory>src</sourceDirectory>
 
 		<plugins>
-			<plugin>
-				<groupId>org.holoeverywhere</groupId>
-				<artifactId>resbuilder</artifactId>
-				<configuration>
-					<includeDirs>
-						<dir>${project.basedir}/resbuilder</dir>
-						<dir>${project.basedir}/../library/resbuilder</dir>
-					</includeDirs>
-					<inputFiles>
-						<file>${project.basedir}/resbuilder/key_strings.json</file>
-						<file>${project.basedir}/resbuilder/key_styles.json</file>
-					</inputFiles>
-				</configuration>
-			</plugin>
-
 			<plugin>
 				<groupId>com.jayway.maven.plugins.android.generation2</groupId>
 				<artifactId>android-maven-plugin</artifactId>
@@ -86,6 +71,9 @@
 						<outputApk>${project.build.directory}/${project.artifactId}-${project.version}-signed-aligned.apk</outputApk>
 					</zipalign>
 					<file>${project.build.directory}/${project.artifactId}-${project.version}-signed-aligned.apk</file>
+					<test>
+						<skip>true</skip>
+					</test>
 				</configuration>
 			</plugin>
 
