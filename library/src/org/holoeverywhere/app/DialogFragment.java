@@ -345,6 +345,13 @@ public class DialogFragment extends Fragment implements
     public int show(FragmentManager manager, String tag) {
         return show(manager.beginTransaction(), tag);
     }
+    
+    /*
+     * added by ThinkYeah
+     */
+    public int show(FragmentManager manager, String tag, boolean allowStateLoss) {
+        return show(manager.beginTransaction(), tag, allowStateLoss);
+    }
 
     public DialogTransaction show(FragmentTransaction ft) {
         return show(null, ft);
@@ -357,5 +364,16 @@ public class DialogFragment extends Fragment implements
         transaction.add(this, tag);
         mViewDestroyed = false;
         return mBackStackId = transaction.commit();
+    }
+    
+    /*
+     * added by ThinkYeah
+     */
+    public int show(FragmentTransaction transaction, String tag, boolean allowStateLoss) {
+        mDismissed = false;
+        mShownByMe = true;
+        transaction.add(this, tag);
+        mViewDestroyed = false;
+        return mBackStackId = allowStateLoss ? transaction.commitAllowingStateLoss() : transaction.commit();
     }
 }
